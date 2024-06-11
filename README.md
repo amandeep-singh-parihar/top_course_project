@@ -1,3 +1,3 @@
 # React + Vite
 
-Project is on the way
+Project DONE
