@@ -7,7 +7,7 @@ function Card({ course ,likedCourses,setLikedCourses}) {
     function clickHandler(){
         if(likedCourses.includes(course.id)){
             //already liked
-            setLikedCourses((prev)=>prev.filter((cid)=>(cid!==course.id)))
+            setLikedCourses((curr)=>curr.filter((cid)=>(cid!==course.id)))
             toast.warning("Like removed")
         }else{
             //not liked
@@ -15,7 +15,7 @@ function Card({ course ,likedCourses,setLikedCourses}) {
              if(likedCourses.length===0){
                 setLikedCourses([course.id]);
              }else{
-                setLikedCourses((prev)=>[...prev,course.id]);
+                setLikedCourses((curr)=>[...curr,course.id]);
              }
              toast.success("Liked Successfully");
         }
