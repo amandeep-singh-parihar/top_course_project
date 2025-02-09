@@ -8,48 +8,53 @@ import { toast } from "react-toastify";
 import Spinner from "./Components/Spinner";
 
 function App() {
+    const [courses, setCourses] = useState(null);
+    // If we don't add the spinner part then the for each loop run on the null give error can be handled using with useState([])
+    const [loading, setLoading] = useState(true);
 
-  const [courses,setCourses]=useState(null);
-  //is we don't add the spinner part then the for each loop run on the null give error can be handled using with useState([])
-  const [loading,setLoading]=useState(true);
+    const [category, setCategory] = useState(filterData[0].title);
+    // now the category is set according to the filter button on the filter bar, and that category is sended
+    // to the cards component
 
-  const [category,setCategory]=useState(filterData[0].title);
-
-  async function fetchData(){
-    setLoading(true);
-    try{
-      let response=await fetch(apiUrl);
-      let output=await response.json();
-      //output
-      setCourses(output.data);
-    }
-    catch(error){
-      toast.error("Something went wrong");
-    }
-    setLoading(false);
-  }
-
-  //rendring for the first time only
-  useEffect(()=>{
-    fetchData();
-  },[])
-
-
-  return (
-    <div className="min-h-screen flex flex-col bg-[#2c4868]">
-      <div>
-        <Navbar />
-      </div>
-      <div>
-      <Filter category={category} setCategory={setCategory} filterData={filterData} />
-      </div>
-      <div className="w-11/12 max-w-[1200px] mx-auto flex flex-wrap justify-center items-center min-h-[50vh]">
-        {
-          loading ? (<Spinner/>) : (<Cards courses={courses} category={category}/>)
+    async function fetchData() {
+        setLoading(true);
+        try {
+            let response = await fetch(apiUrl);
+            let output = await response.json();
+            //output
+            setCourses(output.data); // setCourses initially have all the courses data
+        } catch (error) {
+            toast.error("Something went wrong");
         }
-      </div>
-    </div>
-  );
+        setLoading(false);
+    }
+
+    //rendring for the first time only
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    return (
+        <div className="min-h-screen flex flex-col bg-[#2c4868]">
+            <div>
+                <Navbar />
+            </div>
+            <div>
+                <Filter
+                    category={category}
+                    setCategory={setCategory}
+                    filterData={filterData}
+                />
+            </div>
+            <div className="w-11/12 max-w-[1200px] mx-auto flex flex-wrap justify-center items-center min-h-[50vh]">
+                {loading ? (
+                    <Spinner />
+                ) : (
+                    <Cards courses={courses} category={category} />
+                )}
+            </div>
+        </div>
+    );
 }
 
 export default App;

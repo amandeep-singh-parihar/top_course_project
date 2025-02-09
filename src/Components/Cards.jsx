@@ -14,9 +14,9 @@ function Cards({ courses, category }) {
       });
       return allCourses;
     } else {
-      //specific data
+      // This will invoke when it got the specific title from the filter bar which the user clicked
       return courses[category];
-
+      // it set the courses according to the category
     }
   }
 
